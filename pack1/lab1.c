@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void writeToFile(const char *filename) {
+void write_to_file(const char *filename) {
     FILE *file = fopen(filename, "wb");
     if (file == NULL) {
         printf("Error opening file.\n");
+        fclose(file);
         return;
     }
 
@@ -14,10 +15,11 @@ void writeToFile(const char *filename) {
     fclose(file);
 }
 
-void readFromFile(const char *filename) {
+void read_from_file(const char *filename) {
     FILE *file = fopen(filename, "rb");
     if (file == NULL) {
         printf("Error opening file.\n");
+        fclose(file);
         return;
     }
 
@@ -37,10 +39,11 @@ void readFromFile(const char *filename) {
     fclose(file);
 }
 
-void readFromOffset(const char *filename, long offset, size_t count) {
+void read_from_offset(const char *filename, long offset, size_t count) {
     FILE *file = fopen(filename, "rb");
     if (file == NULL) {
         printf("Error opening file.\n");
+        fclose(file);
         return;
     }
 
@@ -49,7 +52,8 @@ void readFromOffset(const char *filename, long offset, size_t count) {
     unsigned char *buffer = malloc(count * sizeof(unsigned char));
     if (buffer == NULL){
         printf("Memmory does not allocated\n");
-        return;
+        fclose(file);
+        return 1;
     }
     fread(buffer, sizeof(unsigned char), count, file);
 
@@ -71,9 +75,9 @@ int main(int argc, char *argv[]) {
 
     const char *filename = argv[1];
 
-    writeToFile(filename);
-    readFromFile(filename);
-    readFromOffset(filename, 3, 4);
+    write_to_file(filename);
+    read_from_file(filename);
+    read_from_offset(filename, 3, 4);
 
     return 0;
 }
