@@ -53,7 +53,7 @@ void read_from_offset(const char *filename, long offset, size_t count) {
     if (buffer == NULL){
         printf("Memmory does not allocated\n");
         fclose(file);
-        return 1;
+        return;
     }
     fread(buffer, sizeof(unsigned char), count, file);
 
